@@ -4,7 +4,6 @@ import fetch from 'node-fetch';
 const { google } = pkg;
 
 // 환경변수에서 JSON 데이터를 가져와 파싱
-const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
 const email = process.env.client_email
 const privateKey = process.env.private_key
 
@@ -22,9 +21,6 @@ export async function sendPushNotification(fcmToken, title, body, data = {}) {
       ['https://www.googleapis.com/auth/firebase.messaging'] // 인증 범위
     );
 
-    // 환경변수 및 초기화 확인
-    console.log('client_email:', serviceAccountKey.client_email);
-    console.log('private_key:', serviceAccountKey.private_key.replace(/\\n/g, '\n'));
 
     // 인증 토큰 생성
     console.log('Generating token...');
