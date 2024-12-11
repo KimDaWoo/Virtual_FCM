@@ -1,8 +1,10 @@
 import pkg from 'google-auth-library';
 import fetch from 'node-fetch';
-import serviceAccountKey from '../config/serviceAccountKey.json' assert { type: 'json' };
 
 const { google } = pkg;
+
+// 환경변수에서 JSON 데이터를 가져와 파싱
+const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
 
 const PROJECT_ID = serviceAccountKey.project_id;
 const FCM_URL = `https://fcm.googleapis.com/v1/projects/${PROJECT_ID}/messages:send`;
