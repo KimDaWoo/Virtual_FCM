@@ -20,12 +20,14 @@ export async function sendPushNotification(fcmToken, title, body, data = {}) {
 
     // Google JWT 초기화
     console.log('Initializing Google JWT...');
-    const authClient = new google.auth.JWT(
-      email, // 서비스 계정 이메일
-      null, // 키 파일 경로
-      privateKey, // 줄바꿈 처리된 비공개 키
-      ['https://www.googleapis.com/auth/firebase.messaging'] // 인증 범위
-    );
+    const authClient = await google.auth.getClient({
+      credentials: {
+        client_email: email,
+        private_key: privateKey.replace(/\\n/g, '\n'),
+      },
+      scopes: ['https://www.googleapis.com/auth/firebase.messaging'],
+    });
+    
 
     // 인증 토큰 생성
     console.log('Generating token...');
