@@ -11,11 +11,15 @@ const FCM_URL = `https://fcm.googleapis.com/v1/projects/${PROJECT_ID}/messages:s
 
 export async function sendPushNotification(fcmToken, title, body, data = {}) {
   const authClient = new google.auth.JWT(
-    process.env.FIREBASE_CLIENT_EMAIL,
+    process.env.client_email,
     null,
-    process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'), // 줄바꿈 처리
+    process.env.private_key.replace(/\\n/g, '\n'), // 줄바꿈 처리
     ['https://www.googleapis.com/auth/firebase.messaging']
   );
+
+  console.log('FIREBASE_CLIENT_EMAIL:', process.env.FIREBASE_CLIENT_EMAIL);
+  console.log('FIREBASE_PRIVATE_KEY:', process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'));
+
 
   // 인증 토큰 생성
   const token = await authClient.authorize().then((res) => res.access_token);
