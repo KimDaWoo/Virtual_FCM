@@ -5,8 +5,10 @@ const { google } = pkg;
 
 // 환경변수에서 JSON 데이터를 가져와 파싱
 const serviceAccountKey = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
+const email = process.env.client_email
+const privateKey = process.env.private_key
 
-const PROJECT_ID = serviceAccountKey.project_id;
+const PROJECT_ID = process.env.project_id;
 const FCM_URL = `https://fcm.googleapis.com/v1/projects/${PROJECT_ID}/messages:send`;
 
 export async function sendPushNotification(fcmToken, title, body, data = {}) {
@@ -14,9 +16,9 @@ export async function sendPushNotification(fcmToken, title, body, data = {}) {
     // Google JWT 초기화
     console.log('Initializing Google JWT...');
     const authClient = new google.auth.JWT(
-      serviceAccountKey.client_email, // JSON에서 파싱된 이메일
+      email, // JSON에서 파싱된 이메일
       null,
-      serviceAccountKey.private_key.replace(/\\n/g, '\n'), // JSON에서 파싱된 비공개 키
+      privateKey, // JSON에서 파싱된 비공개 키
       ['https://www.googleapis.com/auth/firebase.messaging'] // 인증 범위
     );
 
